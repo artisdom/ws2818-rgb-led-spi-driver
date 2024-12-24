@@ -37,8 +37,17 @@ pub const PI_SPI_HZ: u32 = 15_600_000;
 // T0H_NS = 350ns ± 150ns => 1_1111          ( 5 bits * 64ns per bit ~ 320ns)
 // T0L_NS = 800ns ± 150ns => 000_0000_0000   (11 bits * 64ns per bit ~ 704ns)
 //
+// T0H_NS = 350ns ± 150ns => 11_1111         ( 6 bits * 64ns per bit ~ 384ns)
+// T0L_NS = 800ns ± 150ns => 00_0000_0000    (10 bits * 64ns per bit ~ 640ns)
+//
 // T1H_NS = 700ns ± 150ns => 1_1111_1111    (9 bits * 64ns per bit ~ 576ns)
 // T1L_NS = 600ns ± 150ns => 000_0000        (7 bits * 64ns per bit ~ 448ns)
+//
+// T1H_NS = 800ns ± 150ns => 11_1111_1111   (10 bits * 64ns per bit ~ 640ns)
+// T1L_NS = 450ns ± 150ns => 000_000        (6 bits * 64ns per bit ~ 384ns)
+//
+// T1H_NS = 800ns ± 150ns => 111_1111_1111  (11 bits * 64ns per bit ~ 704ns)
+// T1L_NS = 450ns ± 150ns => 000_00         (5 bits * 64ns per bit ~ 320ns)
 //
 // => !! we encode one data bit in two SPI byte for the proper timings !!
 
@@ -58,5 +67,7 @@ pub mod encoding {
     /// See code comments above where this value comes from!
     /// These are the bits to send via SPI MOSI that represent a logical 1
     /// on WS2812 RGB LED interface. Frequency + length results in the proper timings.
-    pub const WS2812_LOGICAL_ONE_BYTES: [u8; SPI_BYTES_PER_DATA_BIT] = [0b1111_1111, 0b1000_0000];
+    // pub const WS2812_LOGICAL_ONE_BYTES: [u8; SPI_BYTES_PER_DATA_BIT] = [0b1111_1111, 0b1000_0000];
+
+    pub const WS2812_LOGICAL_ONE_BYTES: [u8; SPI_BYTES_PER_DATA_BIT] = [0b1111_1111, 0b1110_0000];
 }
