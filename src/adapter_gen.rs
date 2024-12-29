@@ -1,5 +1,6 @@
 //! Generic Hardware Abstraction Layer, no_std-compatible.
 
+use crate::timings::TRESET_BITS;
 use crate::encoding::encode_rgb_slice;
 use alloc::boxed::Box;
 use alloc::string::String;
@@ -41,6 +42,20 @@ pub trait WS28xxAdapter {
                     "Failed to send {} bytes via the specified hardware device. If you use SPI on Linux Perhaps your SPI buffer is too small!\
                      Check https://www.raspberrypi.org/forums/viewtopic.php?p=309582#p309582 for example.",
                     encoded_data.len()
+                )}
+            )
+    }
+
+    /// Send reset code to the LEDs. This is necessary to signal the end of the data stream.
+    fn flush(&mut self) -> Result<(), String>  {
+        let reset_code = vec![0; TRESET_BITS as usize];
+
+        self.get_hw_dev().write_all(&reset_code)
+            .map_err(|_| {
+                format!(
+                    "Failed to send {} bytes via the specified hardware device. If you use SPI on Linux Perhaps your SPI buffer is too small!\
+                     Check https://www.raspberrypi.org/forums/viewtopic.php?p=309582#p309582 for example.",
+                     reset_code.len()
                 )}
             )
     }

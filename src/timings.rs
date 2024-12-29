@@ -12,6 +12,7 @@
 /// on Raspberry Pi. Works on other Linux systems with SPI device probably too if they have
 /// a similar frequency. Otherwise you may need to change the values in `encoding.rs`.
 pub const PI_SPI_HZ: u32 = 15_600_000;
+pub const PI_SPI_NS_PER_BIT: u32 = 64; // it takes 64ns to send one bit
 // 15.6 Mhz, see https://www.raspberrypi.org/documentation/hardware/raspberrypi/spi/README.md
 
 // this means 1 / 15_600_000 * 1E9 ns/cycle => 64ns / cycle => 15.6 MBit/s
@@ -47,7 +48,9 @@ pub const PI_SPI_HZ: u32 = 15_600_000;
 // pub const _T0L_NS: u64 = 580ns ~ 1.6μs
 // pub const _T1H_NS: u64 = 580ns ~ 1.6μs
 // pub const _T1L_NS: u64 = 220ns ~ 420ns
-// pub const _TRESET: u64 = 280_000; // >280 µs
+pub const TRESET_NS: u64 = 300_000; // >280 µs
+pub const TRESET_BITS: u64 = TRESET_NS / (PI_SPI_NS_PER_BIT as u64) + 1;
+
 //
 // WS2813 LED
 // T0H_NS = 220ns ~ 380ns => 1111             ( 4 bits * 64ns per bit ~ 256ns)
