@@ -1,4 +1,5 @@
 //! Adapter for SPI-dev on Linux-systems. This requires std.
+//! This adapter implements Send and can be safely sent between threads.
 
 use crate::adapter_gen::{HardwareDev, WS28xxAdapter, WS28xxGenAdapter};
 use crate::encoding::encode_rgb_slice;
@@ -51,6 +52,8 @@ impl SpiHwAdapterDev {
 /// Adapter that connects your application via SPI to your WS28xx LEDs.
 /// This requires an SPI device on your machine. This doesn't work
 /// with `#[no-std]`.
+///
+/// This adapter implements Send and can be safely sent between threads.
 pub struct WS28xxSpiAdapter {
     gen: WS28xxGenAdapter,
 }

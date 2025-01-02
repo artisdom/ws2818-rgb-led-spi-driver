@@ -6,7 +6,7 @@ use alloc::boxed::Box;
 use alloc::string::String;
 
 /// SPI-device abstraction.
-pub trait HardwareDev {
+pub trait HardwareDev: Send {
     fn write_all(&mut self, encoded_data: &[u8]) -> Result<(), String>;
 }
 
