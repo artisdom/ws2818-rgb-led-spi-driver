@@ -4,7 +4,7 @@
 //! So far this file and it's functions are static and not dynamic.
 
 use crate::timings::encoding::{
-    SPI_BYTES_PER_DATA_BIT, WS2812_LOGICAL_ONE_BYTES, WS2812_LOGICAL_ZERO_BYTES,
+    SPI_BYTES_PER_DATA_BIT, WS2812_LOGICAL_ONE_BYTES, WS2812_LOGICAL_ZERO_BYTES, WS2813_LOGICAL_ONE_BYTES, WS2813_LOGICAL_ZERO_BYTES,
 };
 use alloc::vec::Vec;
 
@@ -31,11 +31,11 @@ pub fn encode_rgb(r: u8, g: u8, b: u8) -> [u8; SPI_BYTES_PER_RGB_PIXEL] {
             // for each bit of our color; starting with most significant
             // we encode now one color bit in two spi bytes (for proper timings along with our frequency)
             if 0b10000000 & color_bits == 0 {
-                spi_bytes[spi_bytes_i] = WS2812_LOGICAL_ZERO_BYTES[0];
-                spi_bytes[spi_bytes_i + 1] = WS2812_LOGICAL_ZERO_BYTES[1];
+                spi_bytes[spi_bytes_i] = WS2813_LOGICAL_ZERO_BYTES[0];
+                spi_bytes[spi_bytes_i + 1] = WS2813_LOGICAL_ZERO_BYTES[1];
             } else {
-                spi_bytes[spi_bytes_i] = WS2812_LOGICAL_ONE_BYTES[0];
-                spi_bytes[spi_bytes_i + 1] = WS2812_LOGICAL_ONE_BYTES[1];
+                spi_bytes[spi_bytes_i] = WS2813_LOGICAL_ONE_BYTES[0];
+                spi_bytes[spi_bytes_i + 1] = WS2813_LOGICAL_ONE_BYTES[1];
             }
             color_bits = color_bits << 1;
             spi_bytes_i += 2; // update array index;
